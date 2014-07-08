@@ -34,14 +34,14 @@ public class Quiz {
 				//				c.execute(m, html, xml);
 				m.invoke(c, new Object[]{html, xml});
 				try {
-		 			PrintWriter pw = new PrintWriter(className + ".html");
+		 			PrintWriter pw = new PrintWriter("html/" + className + ".html");
 		 			pw.println(html);
 					pw.close();
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
 				try {
-					PrintWriter pw = new PrintWriter(className + ".xml");
+					PrintWriter pw = new PrintWriter("html/" + className + ".xml");
 					pw.println(xml);
 					pw.close();
 				} catch (FileNotFoundException e) {
@@ -58,14 +58,14 @@ public class Quiz {
 		//now clear and create unit test with quiz for everyone 
 		testHTMLAndXML(html, xml);
 		try {
- 			PrintWriter pw = new PrintWriter("quiz.html");
+ 			PrintWriter pw = new PrintWriter("html/quiz.html");
  			pw.println(html);
 			pw.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		try {
-			PrintWriter pw = new PrintWriter("question.xml");
+			PrintWriter pw = new PrintWriter("html/question.xml");
 			pw.println(xml);
 			pw.close();
 		} catch (FileNotFoundException e) {

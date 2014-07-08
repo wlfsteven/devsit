@@ -103,8 +103,8 @@ public class MultiChoice {
 		StringBuilder xml = new StringBuilder();	
 		MultiChoice.testHTMLAndXML(html, xml);
 		try {
-			PrintWriter pw1 = new PrintWriter("multichoice.html");
-			PrintWriter pw2 = new PrintWriter("multichoice.xml");
+			PrintWriter pw1 = new PrintWriter("html/multichoice.html");
+			PrintWriter pw2 = new PrintWriter("html/multichoice.xml");
 			pw1.println(html);
 			pw2.println(xml);
 			pw1.close();
