@@ -15,8 +15,12 @@ public abstract class Question {
 	private boolean ImgQuestion; // if true, the question string is the name of a picture
 	public Question() {}
 
-	public Question(String id, String name, int level) {
-		this.id = id; this.name = name; this.level = level;
+	public Question(String id, String name, String level, String question) {
+		this.id = id;
+		this.name = name;
+		this.level = Integer.parseInt(level);
+				//TODO: trap errors in case level is not a valid integer
+		this.question = question;
 	}
 
 	public String getId() {
@@ -33,12 +37,31 @@ public abstract class Question {
 		this.name = name;
 	}
 
+	public String getQuestion() {
+		return question;
+	}
+	public void setQuestion(String q) {
+		question = q;
+	}
+	
 	public int getLevel() {
 		return level;
 	}
+	public void setLevel(int level) {
+		this.level = level;
+	}
 
+	public void writeHTMLHeader(StringBuilder b) {
+		b.append("<h1>").append(name).append("</h1>");
+		b.append("<h2>" + question + "</h2>");
+	}
 	protected static void writeAttr(StringBuilder b, String tag, String val) {
 		b.append(tag).append("=\"").append(val).append("\" ");
+	}
+	protected static void writeOptAttr(StringBuilder b, String tag, boolean val) {
+		if (val) {
+			b.append(tag).append("=\"").append(val).append("\" ");
+		}
 	}
 
     /*
@@ -51,8 +74,7 @@ public abstract class Question {
 		writeAttr(b, "level", String.valueOf(level));
 	}
 	protected void endTagWriteQuestion(StringBuilder b) {
-		b.append(">\n");
-		b.append(question);
+		b.append(">\n").append(question);
 	}
 
 	public abstract void writeHTML(StringBuilder b);
