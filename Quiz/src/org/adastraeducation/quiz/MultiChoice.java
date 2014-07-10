@@ -4,36 +4,25 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
 /**
- * Represent a Multiple choice question.  Questions and answers may be images or text
- * @author qiangzhang
- * Createddate 6/30/2014
+ * MultiChoice is the class to deal with Multiple Choice, it also includes standard choices which can be reused 
  * 
+ * @author qiangzhang
+ * date 6/30/2014 
  */
-public class MultiChoice {
-	private String id; // unique id for all questions in system
-	private String name; // title of the question
-	private String level; // level of the question
-	private String question; // context of the question
+public class MultiChoice extends Question{
 	private Answer[] answers;
-	private boolean imgAnswer; // determine graphanswer or textanswer 
 	private StdChoice stdchoice;
 	private String choices;
 	
-	
-	
-	public MultiChoice(String id, String name, String level, String question, String[] answers,String imgAnswer){
-		this.id = id;
-		this.name = name;
-		this.level = level;
-		this.question = question;
-		this.choices = "";
-		
+	public MultiChoice(String id, String name, int level, String question, String[] answers,String ImgQuestion){
+		super(id, name, level, question);
+		this.choices = "";	
 		this.answers = new Answer[answers.length/2];
 		for(int i = 0, j = 0; i < this.answers.length; i++,j+=2)
 		{
 			this.answers[i] = new Answer(answers[j], answers[j+1].equals("t"));
 		}
-		this.imgAnswer = imgAnswer.equals("t");
+		this.ImgQuestion = ImgQuestion.equals("t");
 	}
 	public MultiChoice(String id, String name, String question, StdChoice c, String choices){
 		this.id = id;
@@ -44,10 +33,10 @@ public class MultiChoice {
 	}	
 	public static void testHTMLAndXML(StringBuilder html, StringBuilder xml){
 		String []ans1 = { "A dynosaur", "t", "A fish", "f", "A primate", "f", "A mammal", "f"};
-		MultiChoice m1 = new MultiChoice("3", "dynosaur", "1", "What is a Tyranosaurus Rex?", ans1, "f"); 
+		MultiChoice m1 = new MultiChoice("3", "dynosaur", 1, "What is a Tyranosaurus Rex?", ans1, "f"); 
 		
 		String []ans2 = { "Tyranosauraus.jpg", "t", "komododragon.jpg", "f", "shark.jpg", "f", "apatosaurus.jpg", "f"};
-		MultiChoice m2 = new MultiChoice("4", "dynosaur2", "1", "Identify which of the following is Tyranosauraus Rex", ans2, "t");
+		MultiChoice m2 = new MultiChoice("4", "dynosaur2", 1, "Identify which of the following is Tyranosauraus Rex", ans2, "t");
 		
 		String[] a1 = {"Strongly Disagree", "1", "Disagree", "2", "No Opinion", "3", "Agree", "4", "Strongly Agree", "5"};
 		StdChoice standardchoice1 = new StdChoice(a1);
@@ -72,23 +61,29 @@ public class MultiChoice {
 	}
 	public void writeHTML(StringBuilder b){
 		b.append("<h1>").append(this.name).append("</h1>");
-		b.append("<h2>" + question + "</h2>");
-		b.append("<form id=\"").append(id).append("\" name=\"").append(name).append("\">");
+		b.append("<div ");
+		writeAttrs(b);
+		endTagWriteQuestion(b);
+		//b.append("<h2>" + question + "</h2>");
+		//b.append("<form id=\"").append(id).append("\" name=\"").append(name).append("\">");
 		if(this.choices.equals("stdopinion")||this.choices.equals("complexity"))
 			this.stdchoice.writeHTML(b);
 		else
 			for(int i = 0; i < this.answers.length; i++) {
-				if(imgAnswer)
+				if(ImgQuestion)
 					b.append(this.answers[i].graphanswer());
 				else 
 					b.append(this.answers[i].textanswer());
 			}
-		b.append("</form>");
+		b.append("</div>");
 	}
 	
 	public void writeXML(StringBuilder b) {
-		b.append("<MultiChoice id=\"").append(id).append("\" name=\"").append(name).append("\" level=\"").append(level).append("\" imgAnswer=\"").append(imgAnswer).append("\">");
-		b.append(question);
+		b.append("<MultiChoice ");
+		writeAttrs(b);
+		endTagWriteQuestion(b);
+		//b.append("<MultiChoice id=\"").append(id).append("\" name=\"").append(name).append("\" level=\"").append(level).append("\" imgAnswer=\"").append(ImgQuestion).append("\">");
+		//b.append(question);
 		if(this.choices.equals("stdopinion")||this.choices.equals("complexity"))
 			this.stdchoice.writeXML(b);
 		else
@@ -103,8 +98,8 @@ public class MultiChoice {
 		StringBuilder xml = new StringBuilder();	
 		MultiChoice.testHTMLAndXML(html, xml);
 		try {
-			PrintWriter pw1 = new PrintWriter("html/multichoice.html");
-			PrintWriter pw2 = new PrintWriter("html/multichoice.xml");
+			PrintWriter pw1 = new PrintWriter("multichoice.html");
+			PrintWriter pw2 = new PrintWriter("multichoice.xml");
 			pw1.println(html);
 			pw2.println(xml);
 			pw1.close();
