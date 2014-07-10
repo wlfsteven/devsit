@@ -9,23 +9,16 @@ import java.io.PrintWriter;
  * Createddate 6/30/2014
  * 
  */
-public class MultiChoice {
-	private String id; // unique id for all questions in system
-	private String name; // title of the question
-	private String level; // level of the question
-	private String question; // context of the question
+public class MultiChoice extends Question {
 	private Answer[] answers;
 	private boolean imgAnswer; // determine graphanswer or textanswer 
 	private StdChoice stdchoice;
 	private String choices;
+
+	public MultiChoice() {}
 	
-	
-	
-	public MultiChoice(String id, String name, String level, String question, String[] answers,String imgAnswer){
-		this.id = id;
-		this.name = name;
-		this.level = level;
-		this.question = question;
+	public MultiChoice(String id, String name, String level, String question, String imgQuestion, String[] answers, String imgAnswer){
+		super(id, name, level, question, imgQuestion.equals("t"));
 		this.choices = "";
 		
 		this.answers = new Answer[answers.length/2];
@@ -35,30 +28,28 @@ public class MultiChoice {
 		}
 		this.imgAnswer = imgAnswer.equals("t");
 	}
-	public MultiChoice(String id, String name, String question, StdChoice c, String choices){
-		this.id = id;
-		this.name = name;
-		this.question = question;
+	public MultiChoice(String id, String name, String level, String question, String imgQuestion, StdChoice c, String choices){
+		super(id, name, level, question, imgQuestion.equals("t"));
 		this.choices = choices;
 		stdchoice = c;
 	}	
 	public static void testHTMLAndXML(StringBuilder html, StringBuilder xml){
 		String []ans1 = { "A dynosaur", "t", "A fish", "f", "A primate", "f", "A mammal", "f"};
-		MultiChoice m1 = new MultiChoice("3", "dynosaur", "1", "What is a Tyranosaurus Rex?", ans1, "f"); 
+		MultiChoice m1 = new MultiChoice("3", "dynosaur", "1", "What is a Tyranosaurus Rex?", "f", ans1, "f"); 
 		
 		String []ans2 = { "Tyranosauraus.jpg", "t", "komododragon.jpg", "f", "shark.jpg", "f", "apatosaurus.jpg", "f"};
-		MultiChoice m2 = new MultiChoice("4", "dynosaur2", "1", "Identify which of the following is Tyranosauraus Rex", ans2, "t");
+		MultiChoice m2 = new MultiChoice("4", "dynosaur2", "1", "Identify which of the following is Tyranosauraus Rex", "f", ans2, "t");
 		
 		String[] a1 = {"Strongly Disagree", "1", "Disagree", "2", "No Opinion", "3", "Agree", "4", "Strongly Agree", "5"};
 		StdChoice standardchoice1 = new StdChoice(a1);
-		MultiChoice m3 = new MultiChoice("1", "poll1", "I enjoy studying computational complexity.", standardchoice1, "stdopinion");
+		MultiChoice m3 = new MultiChoice("1", "poll1", "1", "I enjoy studying computational complexity.", "f", standardchoice1, "stdopinion");
 		
-		MultiChoice m4 = new MultiChoice("x1", "poll1", "I enjoy eating Chinese food.", standardchoice1, "stdopinion");
+		MultiChoice m4 = new MultiChoice("x1", "poll1", "1", "I enjoy eating Chinese food.", "f", standardchoice1, "stdopinion");
 		
 		String[] a2 = {"O(1)", "1", "O(log_2 n)", "logn", "O(sqrt n)", "sqrtn", "O(n)", "n", "O(n log_2 n)", "nlogn", "O(n^2)", "n^2", "O(n^3)", "n^3"};
 		StdChoice standardchoice2 = new StdChoice(a2);
-		MultiChoice m5 = new MultiChoice("2", "complexity", "The complexity of insertion sort is:", standardchoice2, "complexity");
-		
+		MultiChoice m5 = new MultiChoice("2", "complexity", "1", "The complexity of insertion sort is:", "f", standardchoice2, "complexity");
+
 		m1.writeHTML(html);
 		m2.writeHTML(html);
 		m3.writeHTML(html);
@@ -71,9 +62,8 @@ public class MultiChoice {
 		m5.writeXML(xml);
 	}
 	public void writeHTML(StringBuilder b){
-		b.append("<h1>").append(this.name).append("</h1>");
-		b.append("<h2>" + question + "</h2>");
-		b.append("<form id=\"").append(id).append("\" name=\"").append(name).append("\">");
+		super.writeHTMLHeader(b);
+		//b.append("<form id=\"").append(id).append("\" name=\"").append("q1").append("\">");
 		if(this.choices.equals("stdopinion")||this.choices.equals("complexity"))
 			this.stdchoice.writeHTML(b);
 		else
@@ -83,12 +73,14 @@ public class MultiChoice {
 				else 
 					b.append(this.answers[i].textanswer());
 			}
-		b.append("</form>");
+		//b.append("</form>");
 	}
 	
 	public void writeXML(StringBuilder b) {
-		b.append("<MultiChoice id=\"").append(id).append("\" name=\"").append(name).append("\" level=\"").append(level).append("\" imgAnswer=\"").append(imgAnswer).append("\">");
-		b.append(question);
+		b.append("<MultiChoice ");
+		writeAttrs(b); //if (imgAnswer) {writeAttr(b, "imgAnswer", "t"); }
+		writeOptAttr(b, "imgAnswer", imgAnswer);
+		endTagWriteQuestion(b);
 		if(this.choices.equals("stdopinion")||this.choices.equals("complexity"))
 			this.stdchoice.writeXML(b);
 		else

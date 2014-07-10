@@ -12,15 +12,17 @@ public abstract class Question {
 	private String name;    // displayed above the question
 	private int level;      // difficulty level, used for adaptive quiz
 	private String question; // text of the question
-	private boolean ImgQuestion; // if true, the question string is the name of a picture
+	private boolean imgQuestion; // if true, the question string is the name of a picture
 	public Question() {}
 
-	public Question(String id, String name, String level, String question) {
+	public Question(String id, String name, String level, String question,
+				boolean imgQuestion) {
 		this.id = id;
 		this.name = name;
 		this.level = Integer.parseInt(level);
 				//TODO: trap errors in case level is not a valid integer
 		this.question = question;
+		this.imgQuestion = imgQuestion;
 	}
 
 	public String getId() {

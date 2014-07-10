@@ -11,8 +11,9 @@ public class Quiz {
 			("<?xml version=\"1.0\" ?>");
 
 		MultiChoice.testHTMLAndXML(html, xml);
+		//Match.testHTMLAndXML(html, xml);
 		//FillIn.testHTMLAndXML(html, xml);
-		//		MultiAnswer.testHTMLAndXML(html, xml);
+	//		MultiAnswer.testHTMLAndXML(html, xml);
 		// Equation.testHTMLAndXML(html, xml);
 		html.append
 			("</body></html>");
@@ -49,13 +50,7 @@ public class Quiz {
 			String[] classes = {"MultiChoice"} ;//, "MultiAnswer"
 			for (String className : classes) {
 				Class c = Class.forName("org.adastraeducation.quiz." + className);
-				//Method[] allMethods = c.getDeclaredMethods();
 				Method m = c.getMethod("testHTMLAndXML", StringBuilder.class, StringBuilder.class);
-				//Method m  = c.getMethod("testHTMLAndXML", new Object[] {StringBuilder.class, StringBuilder.class})
-				//for (Method m : allMethods) {
-					System.out.println(m.getName());
-				//}
-				//				c.execute(m, html, xml);
 				m.invoke(c, new Object[]{html, xml});
 				html.append("</body></html>");
 
