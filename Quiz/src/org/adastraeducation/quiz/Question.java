@@ -8,35 +8,49 @@ package org.adastraeducation.quiz;
   @author: Dov Kruger
  */
 public abstract class Question {
-	private String id;      // unique id (for database, maybe XML?)
+	private int id;      // unique id (for database, maybe XML?)
 	private String name;    // displayed above the question
+	private String title;    // displayed above the question
 	private int level;      // difficulty level, used for adaptive quiz
 	private String question; // text of the question
 	private boolean imgQuestion; // if true, the question string is the name of a picture
+	private static int count; // for general unique id
+	//TODO: replace with database
+	
+	static {
+		count = 0;
+	}
 	public Question() {}
 
-	public Question(String id, String name, String level, String question,
+	public Question(String title, String level, String question,
 				boolean imgQuestion) {
-		this.id = id;
-		this.name = name;
+		this.id = count++;
+		this.name = null; // name of  the question within Quiz set when added to a quiz
+		this.title = title;
 		this.level = Integer.parseInt(level);
 				//TODO: trap errors in case level is not a valid integer
 		this.question = question;
 		this.imgQuestion = imgQuestion;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
-	
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
+	}	
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String name) {
+		this.title = name;
 	}
 
 	public String getQuestion() {
@@ -54,7 +68,7 @@ public abstract class Question {
 	}
 
 	public void writeHTMLHeader(StringBuilder b) {
-		b.append("<h1>").append(name).append("</h1>");
+		b.append("<h1>").append(title).append("</h1>");
 		b.append("<div ");
 		writeAttrs(b);
 		if (imgQuestion) {
@@ -64,6 +78,9 @@ public abstract class Question {
 		}
 	}
 	protected static void writeAttr(StringBuilder b, String tag, String val) {
+		b.append(tag).append("=\"").append(val).append("\" ");
+	}
+	protected static void writeAttr(StringBuilder b, String tag, int val) {
 		b.append(tag).append("=\"").append(val).append("\" ");
 	}
 	protected static void writeOptAttr(StringBuilder b, String tag, boolean val) {
@@ -78,7 +95,7 @@ public abstract class Question {
     */
 	protected void writeAttrs(StringBuilder b) {
 		writeAttr(b, "id", id);
-		writeAttr(b, "name", name);
+		writeAttr(b, "name", title);
 		writeAttr(b, "level", String.valueOf(level));
 	}
 	protected void endTagWriteQuestion(StringBuilder b) {
@@ -86,12 +103,12 @@ public abstract class Question {
 	}
 
 	public void writeHTML(StringBuilder b) {
-		b.append("<h1>").append(name).append("</h1>");
+		b.append("<h1>").append(title).append("</h1>");
 		b.append("<div ");
 		writeAttrs(b);
 		b.append(">\n");
 		if (imgQuestion) {
-			b.append("<img src=\"img/").append(question).append("\">");
+			b.append("<img src=\"../img/").append(question).append("\">");
 		} else {
 			b.append("<h2>" + question + "</h2>");
 		}
