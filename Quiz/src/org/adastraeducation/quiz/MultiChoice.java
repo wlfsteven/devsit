@@ -85,22 +85,5 @@ public class MultiChoice extends Question {
 				b.append(answers[i].writeXML());
 			}
 	}
-	public static void main(String []args){
-		StringBuilder html = new StringBuilder();
-		StringBuilder xml = new StringBuilder();	
-		Quiz quiz = new Quiz();
-		MultiChoice.testHTMLAndXML(quiz);
-		try {
-			PrintWriter pw1 = new PrintWriter("multichoice.html");
-			PrintWriter pw2 = new PrintWriter("multichoice.xml");
-			pw1.println(html);
-			pw2.println(xml);
-			pw1.close();
-			pw2.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
-	}
 }
 
