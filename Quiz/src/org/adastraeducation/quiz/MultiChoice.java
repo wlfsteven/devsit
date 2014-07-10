@@ -4,29 +4,28 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
 /**
- * Represent a Multiple choice question.  Questions and answers may be images or text
- * @author qiangzhang
- * Createddate 6/30/2014
+ * MultiChoice is the class to deal with Multiple Choice, it also includes standard choices which can be reused 
  * 
+ * @author qiangzhang
+ * date 6/30/2014 
  */
+
 public class MultiChoice extends Question {
 	private Answer[] answers;
-	private boolean imgAnswer; // determine graphanswer or textanswer 
 	private StdChoice stdchoice;
 	private String choices;
+	private boolean imgAnswer;
 
 	public MultiChoice() {}
 	
 	public MultiChoice(String id, String name, String level, String question, String imgQuestion, String[] answers, String imgAnswer){
 		super(id, name, level, question, imgQuestion.equals("t"));
 		this.choices = "";
-		
 		this.answers = new Answer[answers.length/2];
 		for(int i = 0, j = 0; i < this.answers.length; i++,j+=2)
 		{
 			this.answers[i] = new Answer(answers[j], answers[j+1].equals("t"));
 		}
-		this.imgAnswer = imgAnswer.equals("t");
 	}
 	public MultiChoice(String id, String name, String level, String question, String imgQuestion, StdChoice c, String choices){
 		super(id, name, level, question, imgQuestion.equals("t"));
@@ -61,24 +60,23 @@ public class MultiChoice extends Question {
 		m4.writeXML(xml);
 		m5.writeXML(xml);
 	}
-	public void writeHTML(StringBuilder b){
-		super.writeHTMLHeader(b);
+	
+	public String getTagName() { return "MultiChoice"; }
+	
+	public void writeHTML1(StringBuilder b) {
 		//b.append("<form id=\"").append(id).append("\" name=\"").append("q1").append("\">");
 		if(this.choices.equals("stdopinion")||this.choices.equals("complexity"))
 			this.stdchoice.writeHTML(b);
 		else
-			for(int i = 0; i < this.answers.length; i++) {
-				if(imgAnswer)
+			for (int i = 0; i < this.answers.length; i++) {
+				if (imgAnswer)
 					b.append(this.answers[i].graphanswer());
 				else 
 					b.append(this.answers[i].textanswer());
 			}
-		//b.append("</form>");
 	}
 	
-	public void writeXML(StringBuilder b) {
-		b.append("<MultiChoice ");
-		writeAttrs(b); //if (imgAnswer) {writeAttr(b, "imgAnswer", "t"); }
+	public void writeXML1(StringBuilder b) {
 		writeOptAttr(b, "imgAnswer", imgAnswer);
 		endTagWriteQuestion(b);
 		if(this.choices.equals("stdopinion")||this.choices.equals("complexity"))
@@ -88,15 +86,14 @@ public class MultiChoice extends Question {
 			{
 				b.append(answers[i].writeXML());
 			}
-		b.append("</MultiChoice>");
 	}
 	public static void main(String []args){
 		StringBuilder html = new StringBuilder();
 		StringBuilder xml = new StringBuilder();	
 		MultiChoice.testHTMLAndXML(html, xml);
 		try {
-			PrintWriter pw1 = new PrintWriter("html/multichoice.html");
-			PrintWriter pw2 = new PrintWriter("html/multichoice.xml");
+			PrintWriter pw1 = new PrintWriter("multichoice.html");
+			PrintWriter pw2 = new PrintWriter("multichoice.xml");
 			pw1.println(html);
 			pw2.println(xml);
 			pw1.close();

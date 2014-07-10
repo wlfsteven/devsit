@@ -55,7 +55,13 @@ public abstract class Question {
 
 	public void writeHTMLHeader(StringBuilder b) {
 		b.append("<h1>").append(name).append("</h1>");
-		b.append("<h2>" + question + "</h2>");
+		b.append("<div ");
+		writeAttrs(b);
+		if (imgQuestion) {
+			b.append("<img src=\"img/").append(question).append("\">");
+		} else {
+			b.append("<h2>" + question + "</h2>");
+		}
 	}
 	protected static void writeAttr(StringBuilder b, String tag, String val) {
 		b.append(tag).append("=\"").append(val).append("\" ");
@@ -79,8 +85,37 @@ public abstract class Question {
 		b.append(">\n").append(question);
 	}
 
-	public abstract void writeHTML(StringBuilder b);
-	public abstract void writeXML(StringBuilder b);
+	public void writeHTML(StringBuilder b) {
+		b.append("<h1>").append(name).append("</h1>");
+		b.append("<div ");
+		writeAttrs(b);
+		if (imgQuestion) {
+			b.append("<img src=\"img/").append(question).append("\">");
+		} else {
+			b.append("<h2>" + question + "</h2>");
+		}
+		writeHTML1(b);
+		b.append("</div>");
+		
+		
+		
+	}
+	public abstract String getTagName();
+	
+	/*
+	 * Write out the XML tag name and the basic attributes in common for all question types
+	 * Example:
+	 * <MultiChoice id="q1" name="dynosaur" level="1" 
+	 * then each class writes any additional attributes and ends the tag.
+	 */
+	public void writeXML(StringBuilder b) {
+		 b.append('<').append(getTagName()).append(' ');
+		 writeAttrs(b);
+		 writeXML1(b);
+		 b.append("</").append(getTagName()).append(">\n");
+	}
+	public abstract void writeHTML1(StringBuilder b);
+	public abstract void writeXML1(StringBuilder b);
 
 	// Not ready for this yet...
 	//	public abstract void writeDB();
