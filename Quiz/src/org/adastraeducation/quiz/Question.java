@@ -89,6 +89,7 @@ public abstract class Question {
 		b.append("<h1>").append(name).append("</h1>");
 		b.append("<div ");
 		writeAttrs(b);
+		b.append(">\n");
 		if (imgQuestion) {
 			b.append("<img src=\"img/").append(question).append("\">");
 		} else {
@@ -96,9 +97,6 @@ public abstract class Question {
 		}
 		writeHTML1(b);
 		b.append("</div>");
-		
-		
-		
 	}
 	public abstract String getTagName();
 	

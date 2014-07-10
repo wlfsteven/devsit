@@ -26,11 +26,13 @@ public class MultiChoice extends Question {
 		{
 			this.answers[i] = new Answer(answers[j], answers[j+1].equals("t"));
 		}
+		this.imgAnswer = imgAnswer.equals("t");
 	}
 	public MultiChoice(String id, String name, String level, String question, String imgQuestion, StdChoice c, String choices){
 		super(id, name, level, question, imgQuestion.equals("t"));
 		this.choices = choices;
 		stdchoice = c;
+		//TODO: Make sure imgAnswer is correct!
 	}	
 	public static void testHTMLAndXML(StringBuilder html, StringBuilder xml){
 		String []ans1 = { "A dynosaur", "t", "A fish", "f", "A primate", "f", "A mammal", "f"};

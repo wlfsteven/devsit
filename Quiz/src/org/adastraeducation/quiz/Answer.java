@@ -28,7 +28,7 @@ public class Answer {
 		
 	}
 	public String graphanswer(){
-		return "<input type=\"radio\" name=\"dynosaur2\"><img src=\"resource/" + ans + "\" alt=\"" + ans + "\" width=\"300\" height=\"150\"><br>";
+		return "<input type=\"radio\" name=\"dynosaur2\"><img src=\"img/" + ans + "\" alt=\"" + ans + "\" width=\"300\" height=\"150\"><br>";
 	}
 	public String writeXML(){
 		return "<A correct=\"" + correct + "\">" + ans + "</A>";
