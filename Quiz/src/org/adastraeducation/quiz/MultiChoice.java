@@ -61,7 +61,7 @@ public class MultiChoice extends Question {
 	
 	public String getTagName() { return "MultiChoice"; }
 	
-	public void writeHTML1(StringBuilder b) {
+	public void writeHTMLContent(StringBuilder b) {
 		//b.append("<form id=\"").append(id).append("\" name=\"").append("q1").append("\">");
 		if(this.choices.equals("stdopinion")||this.choices.equals("complexity"))
 			this.stdchoice.writeHTML(b);
@@ -74,7 +74,7 @@ public class MultiChoice extends Question {
 			}
 	}
 	
-	public void writeXML1(StringBuilder b) {
+	public void writeXMLContent(StringBuilder b) {
 		writeOptAttr(b, "imgAnswer", imgAnswer);
 		endTagWriteQuestion(b);
 		if(this.choices.equals("stdopinion")||this.choices.equals("complexity"))

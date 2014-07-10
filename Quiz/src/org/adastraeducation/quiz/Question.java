@@ -1,18 +1,34 @@
 package org.adastraeducation.quiz;
-/*
-  Question is the base class of all questions.  It is abstract.
-  The actual questions are MultiChoice, MultiAnswer, Matching, etc.
-  
-  The purpose of question is the contain the values shared by all questions, such as id, name and level.
-
-  @author: Dov Kruger
+/**
+ * Question is the base class of all questions.  It is abstract.\
+ * The actual questions are MultiChoice, MultiAnswer, Matching, etc.
+ * The purpose of question is the contain the values shared by all questions, such as id, name and level
+ * @author: Dov Kruger
  */
 public abstract class Question {
-	private int id;      // unique id (for database, maybe XML?)
-	private String name;    // displayed above the question
-	private String title;    // displayed above the question
-	private int level;      // difficulty level, used for adaptive quiz
-	private String question; // text of the question
+    /**
+     *  unique id (for database, maybe XML?
+     */
+	private int id; 
+	/**
+     *  displayed above the question
+     */
+	private String name;
+
+	/**
+     *  displayed above the question
+     */
+	private String title;
+	
+    /**
+     *  difficulty level, used for adaptive quiz
+     */
+	private int level;
+
+	/**
+	 * text of the question
+	 */
+	private String question; 
 	private boolean imgQuestion; // if true, the question string is the name of a picture
 	private static int count; // for general unique id
 	//TODO: replace with database
@@ -112,7 +128,7 @@ public abstract class Question {
 		} else {
 			b.append("<h2>" + question + "</h2>");
 		}
-		writeHTML1(b);
+		writeHTMLContent(b);
 		b.append("</div>");
 	}
 	public abstract String getTagName();
@@ -126,11 +142,11 @@ public abstract class Question {
 	public void writeXML(StringBuilder b) {
 		 b.append('<').append(getTagName()).append(' ');
 		 writeAttrs(b);
-		 writeXML1(b);
+		 writeXMLContent(b);
 		 b.append("</").append(getTagName()).append(">\n");
 	}
-	public abstract void writeHTML1(StringBuilder b);
-	public abstract void writeXML1(StringBuilder b);
+	public abstract void writeHTMLContent(StringBuilder b);
+	public abstract void writeXMLContent(StringBuilder b);
 
 	// Not ready for this yet...
 	//	public abstract void writeDB();

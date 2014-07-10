@@ -23,12 +23,12 @@ public class FillIn extends Question{
 	
 	public String getTagName() { return "FillIn"; }
 	
-	public void writeHTML1(StringBuilder b) {
+	public void writeHTMLContent(StringBuilder b) {
 		b.append("<input type=\"text\" ");
 		super.writeAttr(b, "name", getName());
 		b.append(">\n");
 	}
-	public void writeXML1(StringBuilder b) {
+	public void writeXMLContent(StringBuilder b) {
 		super.endTagWriteQuestion(b);
 		for(int i = 0; i < this.fillInAnswers.length; i++) {
 			this.fillInAnswers[i].writeXML(b);
