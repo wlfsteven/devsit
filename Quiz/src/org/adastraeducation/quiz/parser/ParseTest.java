@@ -16,9 +16,9 @@ class MyHandler extends DefaultHandler {
 	
 	
 	class MultiChoiceFactory extends ObjectFactory {
-		private org.adastraeducation.quiz.MultiChoice m;
+		private org.adastraeducation.quiz.Match m;
 		public void create(Attributes attr) {
-			current = m = new org.adastraeducation.quiz.MultiChoice();
+			current = m = new org.adastraeducation.quiz.Match();
 			super.setQuestionAttributes(m, attr);
 		}
 		public void addQuestion(String s) {
