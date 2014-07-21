@@ -56,12 +56,16 @@ public abstract class Question {
 		this.imgQuestion = imgQuestion;
 	}
 
-	public int getId() {
-		return id;
+	public String getId() {
+		return id + "";
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	/*
+	 * Set the id as a string.  This is because it comes in as XML.
+	 * Internally, it is an integer
+	 */
+	public void setId(String id) {
+		this.id = Integer.parseInt(id);
 	}
 
 	public String getName() {
